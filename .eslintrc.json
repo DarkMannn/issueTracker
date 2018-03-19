@@ -1,0 +1,45 @@
+{
+	"env": {
+		"commonjs": true,
+		"es6": true,
+		"node": true,
+		"jest": true
+	},
+	"extends": "standard",
+	"parserOptions": {
+		"sourceType": "module"
+	},
+	"rules": {
+		"indent": [
+			"off",
+			"tab"
+		],
+		"linebreak-style": [
+			"error",
+			"unix"
+		],
+		"semi": [
+			"error",
+			"always", {
+				"omitLastInOneLineBlock": true
+			}
+		],
+		"no-trailing-spaces":[
+			"error", {
+				"skipBlankLines": true, 
+				"ignoreComments": true
+			}
+		],
+		"no-console":"off",
+		"no-extra-semi":"off",
+		"no-tabs":"off",
+		"space-before-function-paren":"off",
+		"no-return-assign":"off",
+		"no-unused-vars":"off",
+		"padded-blocks":"off",
+		"eol-last":"off",
+		"promise/param-names":"off",
+		"no-unreachable":"warn",
+		"handle-callback-err":"off"
+	}
+}
