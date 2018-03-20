@@ -2,7 +2,7 @@
  * Provides functions for validating mongoose documents
  * @module utils/validators
  * @requires mongoose-validator
- * */
+ */
 
 let validate = require('mongoose-validator');
 

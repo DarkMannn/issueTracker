@@ -3,10 +3,14 @@
  * @module routes/session
  * @requires express
  * @requires models/user
+ * @requires utils/rateLimiter
  * @see module:models/user
+ * @see module:utils/rateLimiter
  */
+
 let express = require('express');
 let User = require('../models/user');
+let rateLimiter = require('../utils/rateLimiter.js');
 let router = express.Router();
 
 /**
@@ -25,7 +29,7 @@ router.get('/new', (req, res, next) => {
  * @bodyparam {string} email User provided email address
  * @bodyparam {string} password User provided password
  */
-router.post('/', (req, res, next) => {
+router.post('/', rateLimiter, (req, res, next) => {
 	if (req.session.email) return res.status(400).send({message: 'You are already logged in.'});
 	next();
 });
