@@ -6,31 +6,39 @@ router.get('/new', function(req, res, next) {
 	res.render('login', {title: 'Enter you credentials'});
 });
 
-router.post('/', function(req, res, next) {
-	let email = req.body.email;
-	let password = req.body.password;
+router.post('/', async function(req, res, next) {
+	try {
+		let foundUser = await User.findOne({email: req.body.email}).exec();
+		if (!foundUser) return res.status(403).send({message: 'You do not have an active account.'});
+		req.foundUser = foundUser;
+		next();
+	} catch (err) {
+		if (err) return console.log(`Error while finding a user: ${err}`);
+	}
+});
 
-	User
-	.findOne({email: email})
-	.exec((err, user) => {
-		if (err) return console.log(err);
-		let isValid = User.isPasswordValid(password, user.password);
-		if (isValid) {
-			req.session.email = email;
-			req.session.name = user.firstName + ' ' + user.lastName;
-			res.type('json');
-			res.status(200).send(JSON.stringify({name: req.session.name}));
-		} else {
-			res.status(401).send('You have entered wrong password.');
-		}
-	});
+router.post('/', async function(req, res, next) {
+	let user = req.foundUser;
+	let isValid = await user.isPasswordValid(req.body.password, user.password);
 
+	if (isValid) {
+		req.session.email = user.email;
+		res.status(200).send({
+			id: user.id,
+			username: user.firstName + ' ' + user.lastName,
+			message: 'Successfully logged in.'
+		});
+	} else {
+		res.status(401).send({message: 'You have entered the wrong password.'});
+	}
 });
 
 router.delete('/', function(req, res, next) {
 	res.clearCookie('sessionCookie');
 	req.session.destroy(err => { if (err) console.log('Session was not successfully destroyed.'); });
-	res.status(200).send('You have been successfully logged out.');
+	res.status(200).send({
+		message: 'You have been successfully logged out.'
+	});
 });
 
 module.exports = router;

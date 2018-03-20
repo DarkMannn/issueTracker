@@ -6,10 +6,10 @@ let storeInstance = new MongoStore({
 	url: config.sessionDb
 });
 
-let sessionMiddlewareFunction = session({
+let sessionMiddleware = session({
 	name: 'sessionCookie',
 	secret: config.sessionSecret,
-	cookie: {maxAge: 3600000},
+	cookie: {maxAge: 3600000, httpOnly: true, sameSite: true},
 	resave: false,
 	rolling: true,
 	saveUninitialized: false,
@@ -17,4 +17,4 @@ let sessionMiddlewareFunction = session({
 	store: storeInstance
 });
 
-module.exports = sessionMiddlewareFunction;
+module.exports = sessionMiddleware;
