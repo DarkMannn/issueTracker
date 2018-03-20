@@ -50,8 +50,8 @@ router.post('/', async (req, res, next) => {
 	let newUser = new User({email, password, firstName, lastName});
 
 	try {
-		req.session.email = email;
 		let savedUser = await newUser.save();
+		req.session.email = email;
 		res.status(201).send({
 			id: savedUser.id,
 			username: savedUser.firstName + ' ' + savedUser.lastName,
@@ -59,6 +59,8 @@ router.post('/', async (req, res, next) => {
 		});
 	} catch (err) {
 		console.log(`Error while saving a new user: ${err}`);
+		if (err.name === 'ValidationError') return res.status(400).send(err.message);
+		next({error: 'Internal server error. Try to sign up again.'});
 	}
 });
 
@@ -82,7 +84,7 @@ router.delete('/:userid', async (req, res, next) => {
 		res.status(200).send({message: 'Account successfully removed.'});
 	} catch (err) {
 		console.log(`Error while trying to delete user: ${err}`);
-		res.status(500).send({message: 'Server error. Unsuccessful account removal.'});
+		next({error: 'Internal server error. Unsuccessful account removal. Try again.'});
 	}
 });
 

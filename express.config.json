@@ -1,6 +1,6 @@
 {
 	"sessionSecret": "notRealSecret",
-	"NODE_ENV": "development",
+	"env": "development",
 	"sessionDb": "mongodb://localhost:27017/Sessions",
 	"mainDb": "mongodb://localhost:27017/main",
 	"saltFactor": 11

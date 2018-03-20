@@ -1,10 +1,10 @@
 /** Provides main connection with MongoDB for interaction with models
  * @module models/index
- * @requires config.example.json
+ * @requires express.config.json
  */
 
 let mongoose = require('mongoose');
-let config = require('../config.example.json');
+let config = require('../express.config.json');
 
 /** Connect to the MongoDB */
 mongoose

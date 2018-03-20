@@ -2,32 +2,41 @@
  * @module models/user
  * @requires mongoose
  * @requires bcrypt
- * @requires config.example.json
+ * @requires express.config.json
+ * @requires utils/validators
  */
 
 let mongoose = require('mongoose');
 let bcrypt = require('bcrypt');
-let saltFactor = require('../config.example.json').saltFactor;
+let {isEmail, isName, isPassword} = require('../utils/validators');
+let saltFactor = require('../express.config.json').saltFactor;
 let Schema = mongoose.Schema;
 
 /** Define a schema for User model */
 let userSchema = new Schema({
 	email: {
 		type: String,
-		required: true,
-		index: {unique: true}
+		required: [true, 'Email address is required.'],
+		trim: true,
+		index: {unique: true},
+		validate: isEmail
 	},
 	password: {
 		type: String,
-		required: true
+		required: [true, 'Password is required.'],
+		validate: isPassword
 	},
 	firstName: {
 		type: String,
-		required: true
+		required: [true, 'Your first name is required.'],
+		trim: true,
+		validate: isName
 	},
 	lastName: {
 		type: String,
-		required: true
+		required: [true, 'Your last name is required.'],
+		trim: true,
+		validate: isName
 	}
 });
 

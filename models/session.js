@@ -2,12 +2,12 @@
  * @module models/session
  * @requires express-session
  * @requires connect-mongo
- * @requires config.example.json
+ * @requires express.config.json
  */
 
 let session = require('express-session');
 let MongoStore = require('connect-mongo')(session);
-let config = require('../config.example.json');
+let config = require('../express.config.json');
 
 /** MongoDB session store instance */
 let storeInstance = new MongoStore({
