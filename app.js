@@ -4,13 +4,14 @@ let favicon = require('serve-favicon');
 let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
+
 let mongooseHandler = require('./models/index');
 let sessionMiddleware = require('./models/session');
 
 // require all routers
 let index = require('./routes/index');
-let session = require('./routes/session');
-let user = require('./routes/user');
+let sessions = require('./routes/sessions');
+let users = require('./routes/users');
 
 let app = express();
 
@@ -27,8 +28,8 @@ app.use(sessionMiddleware);
 
 // define routes for routers
 app.use('/', index);
-app.use('/sessions', session);
-app.use('/users', user);
+app.use('/sessions', sessions);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

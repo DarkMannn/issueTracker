@@ -1,8 +1,16 @@
+/** Provides interface for interaction with User data
+ * @module models/user
+ * @requires mongoose
+ * @requires bcrypt
+ * @requires config.example.json
+ */
+
 let mongoose = require('mongoose');
 let bcrypt = require('bcrypt');
 let saltFactor = require('../config.example.json').saltFactor;
 let Schema = mongoose.Schema;
 
+/** Define a schema for User model */
 let userSchema = new Schema({
 	email: {
 		type: String,
@@ -23,6 +31,7 @@ let userSchema = new Schema({
 	}
 });
 
+/** Pre save hook for hashing user plaintext password */
 userSchema.pre('save', async function(next) {
 	let user = this;
 
@@ -38,6 +47,7 @@ userSchema.pre('save', async function(next) {
 	
 });
 
+/** Define method for evaulating the given password */
 userSchema.methods.isPasswordValid = async function(candidatePassword, hash) {
 	try {
 		return await bcrypt.compare(candidatePassword, hash);
