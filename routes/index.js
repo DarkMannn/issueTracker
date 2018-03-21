@@ -12,7 +12,6 @@ let router = express.Router();
  * @route {GET} /
  */
 router.get('/', (req, res, next) => {
-	req.session.homepage = true;
 	res.render('index', { title: 'Some Random Company Issue Tracker' });
 });
 

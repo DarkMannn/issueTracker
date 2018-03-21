@@ -3,13 +3,18 @@
 		"commonjs": true,
 		"es6": true,
 		"node": true,
-		"jest": true
+		"mocha": true
 	},
+	"plugins": [
+		"chai-friendly"
+	],
 	"extends": "standard",
 	"parserOptions": {
 		"sourceType": "module"
 	},
 	"rules": {
+		"no-unused-expressions": "off",
+		"chai-friendly/no-unused-expressions": 1,
 		"indent": [
 			"off",
 			"tab"
