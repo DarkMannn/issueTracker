@@ -1,6 +1,6 @@
 /** 
- * Express router providing issue related routes
- * @module routes/issues
+ * Express router providing issue related get routes
+ * @module routes/issuesGet
  * @requires express
  * @requires models/issue
  * @see models/issue
