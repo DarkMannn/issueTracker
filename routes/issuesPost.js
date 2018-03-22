@@ -19,8 +19,6 @@ var storage = multer.diskStorage({
 });
 var upload = multer({storage: storage});
 let Issue = require('../models/issue');
-let Label = require('../models/label');
-let User = require('../models/user');
 let router = express.Router();
 
 /** One cannot post anything without an active session */

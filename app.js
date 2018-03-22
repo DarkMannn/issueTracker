@@ -12,9 +12,11 @@ let sessionMiddleware = require('./models/session');
 let index = require('./routes/index');
 let sessions = require('./routes/sessions');
 let users = require('./routes/users');
+let labels = require('./routes/labels');
 let issuesGet = require('./routes/issuesGet');
 let issuesPost = require('./routes/issuesPost');
 let issuesDel = require('./routes/issuesDel');
+let issuesPut = require('./routes/issuesPut');
 
 let app = express();
 
@@ -36,9 +38,11 @@ app.use(sessionMiddleware);
 app.use('/', index);
 app.use('/sessions', sessions);
 app.use('/users', users);
+app.use('/labels', labels);
 app.use('/issues', issuesGet);
 app.use('/issues', issuesPost);
 app.use('/issues', issuesDel);
+app.use('/issues', issuesPut);
 
 /** Catch 404 */
 app.use(function(req, res, next) {

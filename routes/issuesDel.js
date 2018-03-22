@@ -8,8 +8,6 @@
 
 let express = require('express');
 let Issue = require('../models/issue');
-let Label = require('../models/label');
-let User = require('../models/user');
 let router = express.Router();
 
 /** One cannot delete anything without an active session */
