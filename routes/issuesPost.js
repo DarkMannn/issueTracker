@@ -23,7 +23,7 @@ let Label = require('../models/label');
 let User = require('../models/user');
 let router = express.Router();
 
-/** One cannot post anything without active ann session */
+/** One cannot post anything without an active session */
 router.post(/.*/, (req, res, next) => {
 	if (!('email' in req.session)) return res.status(400).send({message: 'You are not currently logged in.'});
 	next();

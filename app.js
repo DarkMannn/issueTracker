@@ -14,6 +14,7 @@ let sessions = require('./routes/sessions');
 let users = require('./routes/users');
 let issuesGet = require('./routes/issuesGet');
 let issuesPost = require('./routes/issuesPost');
+let issuesDel = require('./routes/issuesDel');
 
 let app = express();
 
@@ -37,6 +38,7 @@ app.use('/sessions', sessions);
 app.use('/users', users);
 app.use('/issues', issuesGet);
 app.use('/issues', issuesPost);
+app.use('/issues', issuesDel);
 
 /** Catch 404 */
 app.use(function(req, res, next) {
