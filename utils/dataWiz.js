@@ -6,61 +6,73 @@ let faker = require('faker');
 
 async function createUser(num, remove) {
 	if (remove) await User.remove({}).exec();
-	while (num) {
-		let email = faker.internet.email();
-		let password = faker.internet.password(12);
-		let firstName = faker.name.firstName();
-		let lastName = faker.name.lastName();
-		let user = new User({
-			email,
-			password,
-			firstName,
-			lastName
-		});
-		try {
-		await user.save();
-		} catch (err) { console.log(err) };
-		num--;
+	try {
+		while (num) {
+			let email = faker.internet.email();
+			let password = faker.internet.password(12);
+			let firstName = faker.name.firstName();
+			let lastName = faker.name.lastName();
+			let user = new User({
+				email,
+				password,
+				firstName,
+				lastName
+			});
+			try {
+			await user.save();
+			} catch (err) { console.log(err) };
+			num--;
+		}
+	} catch (err) {
+		throw err;
 	}
 }
 
 async function createLabel(num, remove) {
 	if (remove) await Label.remove({}).exec();
-	let colors = ['red', 'blue', 'black', 'yellow'];
-	while (num) {
-		let name = faker.lorem.word();
-		let color = colors[Math.floor(Math.random() * 4)];
-		let label = new Label({
-			name,
-			color
-		});
-		await label.save();
-		num--;
+	try {
+		let colors = ['red', 'blue', 'black', 'yellow'];
+		while (num) {
+			let name = faker.lorem.word() + ['S', 'D', 'Q'][Math.floor(Math.random() * 3)];
+			let color = colors[Math.floor(Math.random() * 4)];
+			let label = new Label({
+				name,
+				color
+			});
+			await label.save();
+			num--;
+		}
+	} catch (err) {
+		throw err;
 	}
 }
 
 async function createIssue(num, remove) {
 	if (remove) await Issue.remove({}).exec();
 	let statuses = ['open', 'closed', 'solved'];
-	while (num) {
-		let title = faker.lorem.sentence();
-		let creator = (await User.findOne({}).skip(Math.floor(Math.random() * num)).exec()).id;
-		let description = faker.lorem.lines();
-		let status = statuses[Math.floor(Math.random() * 3)];
-		let date = faker.date.past();
-		let label = (await Label.findOne({}).skip(Math.floor(Math.random() * num)).exec()).id;
-		let comments = [faker.lorem.lines(), faker.lorem.lines(), faker.lorem.lines()];
-		let issue = new Issue({
-			title,
-			creator,
-			description,
-			status,
-			date,
-			label,
-			comments
-		});
-		await issue.save();
-		num--;
+	try {
+		while (num) {
+			let title = faker.lorem.sentence();
+			let creator = (await User.findOne({}).skip(Math.floor(Math.random() * num)).exec()).id;
+			let description = faker.lorem.lines();
+			let status = statuses[Math.floor(Math.random() * 3)];
+			let date = faker.date.past();
+			let label = (await Label.findOne({}).skip(Math.floor(Math.random() * num)).exec()).id;
+			let comments = [faker.lorem.lines(), faker.lorem.lines(), faker.lorem.lines()];
+			let issue = new Issue({
+				title,
+				creator,
+				description,
+				status,
+				date,
+				label,
+				comments
+			});
+			await issue.save();
+			num--;
+		}
+	} catch (err) {
+		throw err;
 	}
 }
 
@@ -78,9 +90,7 @@ async function fillEntireDb(num, remove) {
 		fillEntireDb(num, remove);
 	}
 }
-
-fillEntireDb(10, true);
-
+	
 module.exports = {
 	createUser,
 	createLabel,
