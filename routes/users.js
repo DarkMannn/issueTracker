@@ -58,8 +58,7 @@ router.post('/', async (req, res, next) => {
 			message: 'Successfully registered.'
 		});
 	} catch (err) {
-		console.log(`Error while saving a new user: ${err}`);
-		if (err.name === 'ValidationError') return res.status(400).send(err.message);
+		if (err.name === 'ValidationError') return res.status(400).send({message: err.message});
 		next({error: 'Internal server error. Try to sign up again.'});
 	}
 });
@@ -83,7 +82,6 @@ router.delete('/:userid', async (req, res, next) => {
 		req.session.destroy();
 		res.status(200).send({message: 'Account successfully removed.'});
 	} catch (err) {
-		console.log(`Error while trying to delete user: ${err}`);
 		next({error: 'Internal server error. Unsuccessful account removal. Try again.'});
 	}
 });

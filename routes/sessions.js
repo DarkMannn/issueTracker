@@ -41,7 +41,6 @@ router.post('/', async (req, res, next) => {
 		req.foundUser = foundUser;
 		next();
 	} catch (err) {
-		console.log(`Error while finding a user: ${err}`);
 		next({error: 'Internal server error. Try to log in again.'});
 	}
 });
@@ -77,7 +76,6 @@ router.delete('/', (req, res, next) => {
 	res.clearCookie('sessionCookie');
 	req.session.destroy(err => {
 		if (err) {
-			console.log('Error while destroying active session.');
 			next({error: 'Internal server error. Try to log out again.'});
 		}
 		res.status(200).send({message: 'You have been successfully logged out.'});

@@ -1,5 +1,6 @@
 let server = require('../app');
 let User = require('../models/user');
+let {createUser, deleteData} = require('../utils/dataWiz');
 let faker = require('faker');
 let chai = require('chai');
 let chaiHttp = require('chai-http');
@@ -9,25 +10,13 @@ chai.should();
 describe('user specific routes', function() {
 
 	let email, password, firstName, lastName;
-	let email2, password2, firstName2, lastName2;
 
-	beforeEach(function() {
-		User.remove({}).exec();
+	beforeEach(async function() {
+		await createUser(2, true);
 		email = faker.internet.email();
-		email2 = faker.internet.email();
 		password = faker.internet.password(12);
-		password2 = faker.internet.password(12);
 		firstName = faker.name.firstName();
-		firstName2 = faker.name.firstName();
 		lastName = faker.name.lastName();
-		lastName2 = faker.name.lastName();
-		let user = new User({
-			email,
-			password,
-			firstName,
-			lastName
-		});
-		return user.save();
 	});
 
 	describe('getting the signin form', function() {
@@ -46,7 +35,7 @@ describe('user specific routes', function() {
 		it('should create an account', async function() {
 			let res = await chai.request(server)
 				.post('/users')
-				.send({email: email2, password: password2, firstName: firstName2, lastName: lastName2});
+				.send({email: email, password: password, firstName: firstName, lastName: lastName});
 			res.should.have.status(201);
 			res.should.be.json;
 			res.should.have.cookie('sessionCookie');
@@ -61,7 +50,7 @@ describe('user specific routes', function() {
 			try {
 				let res = await chai.request(server)
 					.post('/users')
-					.send({email: email2, password: password2, firstName: firstName2, lastName: lastName2});
+					.send({email: email, password: password, firstName: firstName, lastName: lastName});
 			} catch (not2xx) {
 				let res = not2xx.response;
 				res.should.have.status(400);
@@ -77,7 +66,7 @@ describe('user specific routes', function() {
 		it('should create an account', async function() {
 			let res = await agent
 				.post('/users')
-				.send({email: email2, password: password2, firstName: firstName2, lastName: lastName2});
+				.send({email: email, password: password, firstName: firstName, lastName: lastName});
 			res.should.have.status(201);
 			res.should.be.json;
 			res.should.have.cookie('sessionCookie');
@@ -99,7 +88,7 @@ describe('user specific routes', function() {
 		it('should create an account', async function() {
 			let res = await agent
 				.post('/users')
-				.send({email: email2, password: password2, firstName: firstName2, lastName: lastName2});
+				.send({email: email, password: password, firstName: firstName, lastName: lastName});
 			res.should.have.status(201);
 			res.should.be.json;
 			res.should.have.cookie('sessionCookie');
@@ -110,7 +99,7 @@ describe('user specific routes', function() {
 			try {
 				let res = await agent
 					.post('/users')
-					.send({email: email2, password: password2, firstName: firstName2, lastName: lastName2});
+					.send({email: email, password: password, firstName: firstName, lastName: lastName});
 			} catch (not2xx) {
 				let res = not2xx.response;
 				res.should.have.status(400);
@@ -127,7 +116,7 @@ describe('user specific routes', function() {
 		it('should create an account', async function() {
 			let res = await agent
 				.post('/users')
-				.send({email: email2, password: password2, firstName: firstName2, lastName: lastName2});
+				.send({email: email, password: password, firstName: firstName, lastName: lastName});
 			res.should.have.status(201);
 			res.should.be.json;
 			res.should.have.cookie('sessionCookie');
@@ -144,8 +133,48 @@ describe('user specific routes', function() {
 		});
 	});
 
-	afterEach(function() {
-		return User.remove({}).exec();
+	describe('signing with invalid data', function() {
+
+		it('should return false email', async function() {
+			try {
+				let res = await chai.request(server)
+				.post('/users')
+				.send({email: 'zz', password: password, firstName: firstName, lastName: lastName});
+			} catch (not2xx) {
+				let res = not2xx.response;
+				res.should.have.status(400);
+				res.body.message.should.have.string('validation failed');
+			}
+		});
+
+		it('should return false short password', async function() {
+			try {
+				let res = await chai.request(server)
+				.post('/users')
+				.send({email: faker.internet.email(), password: '123', firstName: firstName, lastName: lastName});
+			} catch (not2xx) {
+				let res = not2xx.response;
+				res.should.have.status(400);
+				res.body.message.should.have.string('validation failed');
+			}
+		});
+		
+		it('should return short first name or last name', async function() {
+			try {
+				let res = await chai.request(server)
+				.post('/users')
+				.send({email: faker.internet.email(), password: password, firstName: 'jo', lastName: lastName});
+			} catch (not2xx) {
+				let res = not2xx.response;
+				res.should.have.status(400);
+				res.body.message.should.have.string('validation failed');
+			}
+		});
+
+	});
+
+	afterEach(async function() {
+		await deleteData(User);
 	});
 
 });

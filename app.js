@@ -12,6 +12,7 @@ let sessionMiddleware = require('./models/session');
 let index = require('./routes/index');
 let sessions = require('./routes/sessions');
 let users = require('./routes/users');
+let issues = require('./routes/issues');
 
 let app = express();
 
@@ -33,6 +34,7 @@ app.use(sessionMiddleware);
 app.use('/', index);
 app.use('/sessions', sessions);
 app.use('/users', users);
+app.use('/issues', issues);
 
 /** Catch 404 */
 app.use(function(req, res, next) {

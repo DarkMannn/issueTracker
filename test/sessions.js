@@ -1,5 +1,6 @@
 let server = require('../app');
 let User = require('../models/user');
+let {createUser, deleteData} = require('../utils/dataWiz');
 let faker = require('faker');
 let chai = require('chai');
 let chaiHttp = require('chai-http');
@@ -9,9 +10,9 @@ chai.should();
 describe('session specific routes', function() {
 
 	let email, password, firstName, lastName;
-
-	before(function() {
-		User.remove({}).exec();
+	
+	before(async function() {
+		await createUser(2, true);
 		email = faker.internet.email();
 		password = faker.internet.password(12);
 		firstName = faker.name.firstName();
@@ -22,7 +23,7 @@ describe('session specific routes', function() {
 			firstName,
 			lastName
 		});
-		return user.save();
+		await user.save();
 	});
 
 	describe('getting the login form', function() {
@@ -117,8 +118,8 @@ describe('session specific routes', function() {
 		});
 	});
 
-	after(function() {
-		User.remove({}).exec();
+	after(async function() {
+		await deleteData(User);
 	});
 
 });

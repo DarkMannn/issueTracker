@@ -13,8 +13,7 @@ let isName = [
 		message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters'
 	}),
 	validate({
-		validator: 'isAlphanumeric',
-		passIfEmpty: true,
+		validator: 'isAscii',
 		message: 'Name should contain alpha-numeric characters only'
 	})
 ];
@@ -34,8 +33,34 @@ let isPassword = [
 	})
 ];
 
+let isLabel = [
+	validate({
+		validator: 'isLength',
+		arguments: [2, 35],
+		message: 'Label name should be between {ARGS[0]} and {ARGS[1]} characters'
+	}),
+	validate({
+		validator: 'isAlpha',
+		message: 'Label should contain letters only'
+	})
+];
+
+let isTitle = [
+	validate({
+		validator: 'isLength',
+		arguments: [3, 300],
+		message: 'Title should be between {ARGS[0]} and {ARGS[1]} characters'
+	}),
+	validate({
+		validator: 'isAscii',
+		message: 'Comment should contain alpha-numeric characters only'
+	})
+];
+
 module.exports = {
 	isName,
 	isEmail,
-	isPassword
+	isPassword,
+	isTitle,
+	isLabel
 };
