@@ -14,26 +14,26 @@
     "mongo": "mongo-express -a -u admin -p pass"
   },
   "dependencies": {
-    "bcrypt": "^1.0.3",
-    "body-parser": "~1.18.2",
-    "connect-mongo": "^2.0.1",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "ejs": "~2.5.7",
-    "express": "~4.15.5",
+    "bcrypt": "3.0.2",
+    "body-parser": "1.x",
+    "connect-mongo": "2.x",
+    "cookie-parser": "1.x",
+    "debug": "2.x",
+    "ejs": "2.x",
+    "express": "4.16.4",
     "express-rate-limit": "^2.11.0",
     "express-session": "^1.15.6",
     "helmet": "^3.12.0",
     "mongodb": "^3.0.4",
     "mongoose": "^5.0.11",
     "mongoose-validator": "^2.0.2",
-    "morgan": "~1.9.0",
+    "morgan": "1.9.1",
     "multer": "^1.3.0",
     "serve-favicon": "~2.4.5"
   },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-http": "^3.0.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.2.0",
     "eslint": "^4.19.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-chai-friendly": "^0.4.1",
@@ -46,7 +46,7 @@
     "jsdoc-route-plugin": "^0.1.0",
     "minami": "^1.2.3",
     "mocha": "^5.0.4",
-    "nyc": "^11.6.0",
+    "nyc": "13.1.0",
     "sinon": "^4.4.6"
   }
 }

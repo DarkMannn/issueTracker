@@ -30,9 +30,9 @@ describe('issue specific routes', function() {
 	describe('trying to post without active account', function() {
 
 		it('should return 400', async function() {
-			let res = await chai.request(server).post('/issues');
+			let res = await chai.request(server)
+				.post('/issues');
 			res.should.have.status(400);
-			res.body.message.should.be.equal('You are not currently logged in.');
 		});
 
 	});
